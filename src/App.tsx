@@ -1,57 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+
+import { useAppDispatch, useAppSelector } from "./app/hooks";
+import LoginPage from "./components/loginpage/LoginPage";
+import { setLoggedStatus } from "./components/loginpage/LoginSlice";
 
 function App() {
+  const IsLogged = useAppSelector(setLoggedStatus);
+  const dispatch = useAppDispatch();
+
+  const [DataSet, setDataSet] = useState(0);
+
+  async function GetDataSet() {
+    await fetch(
+      `${process.env.REACT_APP_API_URL}/ru/data/v3/testmethods/docs/userdocs/get`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth": `${sessionStorage.getItem("authkey")}`,
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((response) => {})
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+
+  useEffect(() => {
+    GetDataSet();
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <>
+      {IsLogged && (
+        <div className="App">
+          <h1>Token is: {sessionStorage.getItem("authkey")}</h1>
+          <img
+            src="https://media.tenor.com/4YuPV92egH0AAAAC/%D0%B3%D0%BE%D0%B1%D0%BB%D0%B8%D0%BD-%D1%81%D0%B2%D0%B8%D0%BD%D1%8C%D0%B8.gif"
+            alt=""
+          />
+        </div>
+      )}
+      {!IsLogged && <LoginPage />}
+    </>
   );
 }
 
