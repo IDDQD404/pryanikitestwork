@@ -5,3 +5,12 @@
 .ButtonLogOut {
   text-align: right;
 }
+
+.EditCellBox {
+  display: inline-flex;
+  float: right;
+}
+
+.EditCellBox :hover {
+  cursor: pointer;
+}

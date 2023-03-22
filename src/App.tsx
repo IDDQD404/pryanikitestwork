@@ -8,14 +8,19 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import LoginPage from "./components/loginpage/LoginPage";
 import { setLoggedStatus } from "./components/loginpage/LoginSlice";
+import EditCellLabel from "./components/editCellLabel/EditCellLabel";
 
 function App() {
+  const [ShowEditMenu, setShowEditMenu] = useState(true);
   const IsLogged = useAppSelector(setLoggedStatus);
   const dispatch = useAppDispatch();
 
@@ -158,24 +163,99 @@ function App() {
                   <TableRow key={row.companySigDate}>
                     <TableCell>{row.companySigDate}</TableCell>
 
-                    <TableCell>{row.companySignatureName}</TableCell>
+                    <TableCell>
+                      {row.companySignatureName}
 
-                    <TableCell>{row.documentName}</TableCell>
+                      <div className="EditCellBox">
+                        <div>
+                          <ModeEditIcon sx={{ fontSize: 20 }} />
+                        </div>
+                        <div>
+                          <DeleteIcon sx={{ fontSize: 20 }} />
+                        </div>
+                      </div>
+                    </TableCell>
 
-                    <TableCell>{row.documentStatus}</TableCell>
+                    <TableCell>
+                      {row.documentName}
 
-                    <TableCell>{row.documentType}</TableCell>
+                      <div className="EditCellBox">
+                        <div>
+                          <ModeEditIcon sx={{ fontSize: 20 }} />
+                        </div>
+                        <div>
+                          <DeleteIcon sx={{ fontSize: 20 }} />
+                        </div>
+                      </div>
+                    </TableCell>
 
-                    <TableCell>{row.employeeNumber}</TableCell>
+                    <TableCell>
+                      {row.documentStatus}
+
+                      <div className="EditCellBox">
+                        <div>
+                          <ModeEditIcon sx={{ fontSize: 20 }} />
+                        </div>
+                        <div>
+                          <DeleteIcon sx={{ fontSize: 20 }} />
+                        </div>
+                      </div>
+                    </TableCell>
+
+                    <TableCell>
+                      {row.documentType}
+
+                      <div className="EditCellBox">
+                        <div>
+                          <ModeEditIcon sx={{ fontSize: 20 }} />
+                        </div>
+                        <div>
+                          <DeleteIcon sx={{ fontSize: 20 }} />
+                        </div>
+                      </div>
+                    </TableCell>
+
+                    <TableCell>
+                      {row.employeeNumber}
+
+                      <div className="EditCellBox">
+                        <div>
+                          <ModeEditIcon sx={{ fontSize: 20 }} />
+                        </div>
+                        <div>
+                          <DeleteIcon sx={{ fontSize: 20 }} />
+                        </div>
+                      </div>
+                    </TableCell>
 
                     <TableCell>{row.employeeSigDate}</TableCell>
 
-                    <TableCell>{row.employeeSignatureName}</TableCell>
+                    <TableCell>
+                      {row.employeeSignatureName}
+
+                      <div className="EditCellBox">
+                        <div>
+                          <ModeEditIcon sx={{ fontSize: 20 }} />
+                        </div>
+                        <div>
+                          <DeleteIcon sx={{ fontSize: 20 }} />
+                        </div>
+                      </div>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
+
+          {ShowEditMenu && (
+            <EditCellLabel
+              ElementCategory={"Category"}
+              Element={"Abrvalg"}
+              Position={[]}
+              FullArray={[]}
+            />
+          )}
         </div>
       )}
       {!IsLogged && !sessionStorage.getItem("authkey") && <LoginPage />}
