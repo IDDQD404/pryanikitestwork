@@ -31,6 +31,7 @@ function App() {
       "Unsetted"
     ),
   ]);
+  const RowsRef = useRef(Rows);
 
   async function GetDataSet() {
     await fetch(
@@ -45,12 +46,12 @@ function App() {
     )
       .then((response) => response.json())
       .then((response) => {
-        console.log("|----1----|");
+        if (response.data) console.log("|----1----|");
         console.log(response.data);
-        console.log("|--------|");
 
         console.log("|----2----|");
         let Unsorted = response.data;
+
         let Sorted: {
           companySigDate: string;
           companySignatureName: string;
@@ -88,7 +89,9 @@ function App() {
 
   useEffect(() => {
     GetDataSet();
-  }, [Rows]);
+    console.log("Loaded");
+    console.log(RowsRef);
+  }, [RowsRef, !IsLogged]);
 
   function DataSortType(
     companySigDate: string,
@@ -114,68 +117,67 @@ function App() {
 
   return (
     <>
-      {IsLogged ||
-        (sessionStorage.getItem("authkey") && (
-          <div className="App">
-            <div className="ButtonLogOut">
-              <h1>Token is: {sessionStorage.getItem("authkey")}</h1>
+      {sessionStorage.getItem("authkey") && (
+        <div className="App">
+          <div className="ButtonLogOut">
+            <h1>Token is: {sessionStorage.getItem("authkey")}</h1>
 
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => {
-                  sessionStorage.setItem("authkey", "");
-                  window.location.reload();
-                }}
-              >
-                Log out
-              </Button>
-            </div>
-
-            <img
-              src="https://media.tenor.com/4YuPV92egH0AAAAC/%D0%B3%D0%BE%D0%B1%D0%BB%D0%B8%D0%BD-%D1%81%D0%B2%D0%B8%D0%BD%D1%8C%D0%B8.gif"
-              alt=""
-            />
-
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>companySigDate</TableCell>
-                    <TableCell>companySignatureName</TableCell>
-                    <TableCell>documentName</TableCell>
-                    <TableCell>documentStatus</TableCell>
-                    <TableCell>documentType</TableCell>
-                    <TableCell>employeeNumber</TableCell>
-                    <TableCell>employeeSigDate</TableCell>
-                    <TableCell>employeeSignatureName</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {Rows.map((row: any) => (
-                    <TableRow key={row.companySigDate}>
-                      <TableCell>{row.companySigDate}</TableCell>
-
-                      <TableCell>{row.companySignatureName}</TableCell>
-
-                      <TableCell>{row.documentName}</TableCell>
-
-                      <TableCell>{row.documentStatus}</TableCell>
-
-                      <TableCell>{row.documentType}</TableCell>
-
-                      <TableCell>{row.employeeNumber}</TableCell>
-
-                      <TableCell>{row.employeeSigDate}</TableCell>
-
-                      <TableCell>{row.employeeSignatureName}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => {
+                sessionStorage.setItem("authkey", "");
+                window.location.reload();
+              }}
+            >
+              Log out
+            </Button>
           </div>
-        ))}
+
+          <img
+            src="https://media.tenor.com/4YuPV92egH0AAAAC/%D0%B3%D0%BE%D0%B1%D0%BB%D0%B8%D0%BD-%D1%81%D0%B2%D0%B8%D0%BD%D1%8C%D0%B8.gif"
+            alt=""
+          />
+
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>companySigDate</TableCell>
+                  <TableCell>companySignatureName</TableCell>
+                  <TableCell>documentName</TableCell>
+                  <TableCell>documentStatus</TableCell>
+                  <TableCell>documentType</TableCell>
+                  <TableCell>employeeNumber</TableCell>
+                  <TableCell>employeeSigDate</TableCell>
+                  <TableCell>employeeSignatureName</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {Rows.map((row: any) => (
+                  <TableRow key={row.companySigDate}>
+                    <TableCell>{row.companySigDate}</TableCell>
+
+                    <TableCell>{row.companySignatureName}</TableCell>
+
+                    <TableCell>{row.documentName}</TableCell>
+
+                    <TableCell>{row.documentStatus}</TableCell>
+
+                    <TableCell>{row.documentType}</TableCell>
+
+                    <TableCell>{row.employeeNumber}</TableCell>
+
+                    <TableCell>{row.employeeSigDate}</TableCell>
+
+                    <TableCell>{row.employeeSignatureName}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      )}
       {!IsLogged && !sessionStorage.getItem("authkey") && <LoginPage />}
     </>
   );
