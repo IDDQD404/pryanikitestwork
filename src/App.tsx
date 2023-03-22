@@ -1,4 +1,5 @@
 import {
+  Button,
   Paper,
   Table,
   TableBody,
@@ -18,17 +19,18 @@ function App() {
   const IsLogged = useAppSelector(setLoggedStatus);
   const dispatch = useAppDispatch();
 
-  const [DataSet, setDataSet] = useState({
-    documentStatus: "A",
-    employeeNumber: "A",
-    documentType: "A",
-    documentName: "A",
-    companySignatureName: "A",
-    employeeSignatureName: "A",
-    employeeSigDate: "A",
-    companySigDate: "A",
-  });
-  const DataRef = useRef(false);
+  const [Rows, setRows] = useState([
+    DataSortType(
+      "Unsetted",
+      "Unsetted",
+      "Unsetted",
+      "Unsetted",
+      "Unsetted",
+      "Unsetted",
+      "Unsetted",
+      "Unsetted"
+    ),
+  ]);
 
   async function GetDataSet() {
     await fetch(
@@ -43,11 +45,40 @@ function App() {
     )
       .then((response) => response.json())
       .then((response) => {
-        setDataSet(response.data[0]);
         console.log("|----1----|");
-        console.log(response.data[0]);
-        console.log("-----2----");
-        console.log(DataSet);
+        console.log(response.data);
+        console.log("|--------|");
+
+        console.log("|----2----|");
+        let Unsorted = response.data;
+        let Sorted: {
+          companySigDate: string;
+          companySignatureName: string;
+          documentName: string;
+          documentStatus: string;
+          documentType: string;
+          employeeNumber: string;
+          employeeSigDate: string;
+          employeeSignatureName: string;
+        }[] = [];
+        Unsorted.forEach((element: any, index: number) =>
+          Sorted.push(
+            DataSortType(
+              element.companySigDate,
+              element.companySignatureName,
+              element.documentName,
+              element.documentStatus,
+              element.documentType,
+              element.employeeNumber,
+              element.employeeSigDate,
+              element.employeeSignatureName
+            )
+          )
+        );
+
+        console.log(Sorted);
+        setRows(Sorted);
+
         console.log("|--------|");
       })
       .catch((error) => {
@@ -56,9 +87,8 @@ function App() {
   }
 
   useEffect(() => {
-    DataRef.current = true;
     GetDataSet();
-  }, [!DataRef.current]);
+  }, [Rows]);
 
   function DataSortType(
     companySigDate: string,
@@ -82,69 +112,71 @@ function App() {
     };
   }
 
-  const rows = [
-    DataSortType(
-      DataSet.companySigDate,
-      DataSet.companySignatureName,
-      DataSet.documentName,
-      DataSet.documentStatus,
-      DataSet.documentType,
-      DataSet.employeeNumber,
-      DataSet.employeeSigDate,
-      DataSet.employeeSignatureName
-    ),
-  ];
-
   return (
     <>
-      {IsLogged && (
-        <div className="App">
-          <h1>Token is: {sessionStorage.getItem("authkey")}</h1>
-          <img
-            src="https://media.tenor.com/4YuPV92egH0AAAAC/%D0%B3%D0%BE%D0%B1%D0%BB%D0%B8%D0%BD-%D1%81%D0%B2%D0%B8%D0%BD%D1%8C%D0%B8.gif"
-            alt=""
-          />
+      {IsLogged ||
+        (sessionStorage.getItem("authkey") && (
+          <div className="App">
+            <div className="ButtonLogOut">
+              <h1>Token is: {sessionStorage.getItem("authkey")}</h1>
 
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>companySigDate</TableCell>
-                  <TableCell>companySignatureName</TableCell>
-                  <TableCell>documentName</TableCell>
-                  <TableCell>documentStatus</TableCell>
-                  <TableCell>documentType</TableCell>
-                  <TableCell>employeeNumber</TableCell>
-                  <TableCell>employeeSigDate</TableCell>
-                  <TableCell>employeeSignatureName</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.companySigDate}>
-                    <TableCell>{row.companySigDate}</TableCell>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => {
+                  sessionStorage.setItem("authkey", "");
+                  window.location.reload();
+                }}
+              >
+                Log out
+              </Button>
+            </div>
 
-                    <TableCell>{row.companySignatureName}</TableCell>
+            <img
+              src="https://media.tenor.com/4YuPV92egH0AAAAC/%D0%B3%D0%BE%D0%B1%D0%BB%D0%B8%D0%BD-%D1%81%D0%B2%D0%B8%D0%BD%D1%8C%D0%B8.gif"
+              alt=""
+            />
 
-                    <TableCell>{row.documentName}</TableCell>
-
-                    <TableCell>{row.documentStatus}</TableCell>
-
-                    <TableCell>{row.documentType}</TableCell>
-
-                    <TableCell>{row.employeeNumber}</TableCell>
-
-                    <TableCell>{row.employeeSigDate}</TableCell>
-
-                    <TableCell>{row.employeeSignatureName}</TableCell>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>companySigDate</TableCell>
+                    <TableCell>companySignatureName</TableCell>
+                    <TableCell>documentName</TableCell>
+                    <TableCell>documentStatus</TableCell>
+                    <TableCell>documentType</TableCell>
+                    <TableCell>employeeNumber</TableCell>
+                    <TableCell>employeeSigDate</TableCell>
+                    <TableCell>employeeSignatureName</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-      )}
-      {!IsLogged && <LoginPage />}
+                </TableHead>
+                <TableBody>
+                  {Rows.map((row: any) => (
+                    <TableRow key={row.companySigDate}>
+                      <TableCell>{row.companySigDate}</TableCell>
+
+                      <TableCell>{row.companySignatureName}</TableCell>
+
+                      <TableCell>{row.documentName}</TableCell>
+
+                      <TableCell>{row.documentStatus}</TableCell>
+
+                      <TableCell>{row.documentType}</TableCell>
+
+                      <TableCell>{row.employeeNumber}</TableCell>
+
+                      <TableCell>{row.employeeSigDate}</TableCell>
+
+                      <TableCell>{row.employeeSignatureName}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        ))}
+      {!IsLogged && !sessionStorage.getItem("authkey") && <LoginPage />}
     </>
   );
 }
