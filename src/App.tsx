@@ -22,8 +22,14 @@ import {
   OpenEditMenu,
   setEditingStatus,
 } from "./components/editCellLabel/EditSlice";
+import {
+  setUpdatedAppStatus,
+  UpdateApp,
+  AppisUpdated,
+} from "./app/UpdateAppSlice";
 
 function App() {
+  const IsUpdateApp = useAppSelector(setUpdatedAppStatus);
   const IsLogged = useAppSelector(setLoggedStatus);
   const isEditing = useAppSelector(setEditingStatus);
   const dispatch = useAppDispatch();
@@ -115,6 +121,8 @@ function App() {
         setRows(Sorted);
 
         console.log("|--------|");
+
+        dispatch(AppisUpdated());
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -125,7 +133,7 @@ function App() {
     GetDataSet();
     console.log("Loaded");
     console.log(RowsRef);
-  }, [RowsRef, !IsLogged]);
+  }, [IsUpdateApp, RowsRef, IsLogged]);
 
   function DataSortType(
     companySigDate: string,
@@ -172,6 +180,14 @@ function App() {
             src="https://media.tenor.com/4YuPV92egH0AAAAC/%D0%B3%D0%BE%D0%B1%D0%BB%D0%B8%D0%BD-%D1%81%D0%B2%D0%B8%D0%BD%D1%8C%D0%B8.gif"
             alt=""
           />
+
+          <button
+            onClick={() => {
+              dispatch(UpdateApp());
+            }}
+          >
+            AAA
+          </button>
 
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">

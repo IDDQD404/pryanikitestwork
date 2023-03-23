@@ -1,11 +1,13 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import EditSlice from "../components/editCellLabel/EditSlice";
 import LoginReducer from "../components/loginpage/LoginSlice";
+import UpdateSlice from "./UpdateAppSlice";
 
 export const store = configureStore({
   reducer: {
     islogged: LoginReducer,
     isEditing: EditSlice,
+    isUpdated: UpdateSlice,
   },
 });
 
