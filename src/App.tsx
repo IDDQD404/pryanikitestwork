@@ -18,11 +18,31 @@ import { useAppDispatch, useAppSelector } from "./app/hooks";
 import LoginPage from "./components/loginpage/LoginPage";
 import { setLoggedStatus } from "./components/loginpage/LoginSlice";
 import EditCellLabel from "./components/editCellLabel/EditCellLabel";
+import {
+  OpenEditMenu,
+  setEditingStatus,
+} from "./components/editCellLabel/EditSlice";
 
 function App() {
-  const [ShowEditMenu, setShowEditMenu] = useState(true);
   const IsLogged = useAppSelector(setLoggedStatus);
+  const isEditing = useAppSelector(setEditingStatus);
   const dispatch = useAppDispatch();
+  const [CategoryList, setCategoryList] = useState([
+    "companySigDate",
+    "companySignatureName",
+    "documentName",
+    "documentStatus",
+    "documentType",
+    "employeeNumber",
+    "employeeSigDate",
+    "employeeSignatureName",
+  ]);
+
+  const [UnsortedData, setUnsortedData] = useState([{}]);
+  const [ElementCategory, setElementCategory] = useState("");
+  const [ElementToEdit, setElementToEdit] = useState("");
+  const [ElementsUUIDs, setElementsUUIDs] = useState([""]);
+  const [ElementIndex, setElementIndex] = useState(0);
 
   const [Rows, setRows] = useState([
     DataSortType(
@@ -55,7 +75,9 @@ function App() {
         console.log(response.data);
 
         console.log("|----2----|");
+
         let Unsorted = response.data;
+        setUnsortedData(response.data);
 
         let Sorted: {
           companySigDate: string;
@@ -67,6 +89,7 @@ function App() {
           employeeSigDate: string;
           employeeSignatureName: string;
         }[] = [];
+
         Unsorted.forEach((element: any, index: number) =>
           Sorted.push(
             DataSortType(
@@ -81,6 +104,12 @@ function App() {
             )
           )
         );
+
+        let UUIDs: string[] = [];
+        Unsorted.forEach((element: any, index: number) =>
+          UUIDs.push(element.id)
+        );
+        setElementsUUIDs(UUIDs);
 
         console.log(Sorted);
         setRows(Sorted);
@@ -148,18 +177,13 @@ function App() {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>companySigDate</TableCell>
-                  <TableCell>companySignatureName</TableCell>
-                  <TableCell>documentName</TableCell>
-                  <TableCell>documentStatus</TableCell>
-                  <TableCell>documentType</TableCell>
-                  <TableCell>employeeNumber</TableCell>
-                  <TableCell>employeeSigDate</TableCell>
-                  <TableCell>employeeSignatureName</TableCell>
+                  {CategoryList.map((element: string) => (
+                    <TableCell>{element}</TableCell>
+                  ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {Rows.map((row: any) => (
+                {Rows.map((row: any, index: number) => (
                   <TableRow key={row.companySigDate}>
                     <TableCell>{row.companySigDate}</TableCell>
 
@@ -167,7 +191,15 @@ function App() {
                       {row.companySignatureName}
 
                       <div className="EditCellBox">
-                        <div>
+                        <div
+                          onClick={() => {
+                            setElementCategory(CategoryList[index + 1]);
+                            setElementToEdit(row.companySignatureName);
+                            setElementIndex(index);
+
+                            dispatch(OpenEditMenu());
+                          }}
+                        >
                           <ModeEditIcon sx={{ fontSize: 20 }} />
                         </div>
                         <div>
@@ -248,12 +280,13 @@ function App() {
             </Table>
           </TableContainer>
 
-          {ShowEditMenu && (
+          {isEditing && (
             <EditCellLabel
-              ElementCategory={"Category"}
-              Element={"Abrvalg"}
-              Position={[]}
-              FullArray={[]}
+              ElementCategory={ElementCategory}
+              ElementToEdit={ElementToEdit}
+              Elements={Rows}
+              UUID={ElementsUUIDs}
+              Index={ElementIndex}
             />
           )}
         </div>
