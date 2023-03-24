@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
@@ -33,13 +34,21 @@ import {
 } from "./components/deleteLineLabel/DeleteSlice";
 import DeleteCellLabel from "./components/deleteLineLabel/DeleteLineLabel";
 import DeleteLineLabel from "./components/deleteLineLabel/DeleteLineLabel";
+import {
+  OpenAddLineMenu,
+  setAddLineMenuStatus,
+} from "./components/addLineLabel/AddLineSlice";
+import AddLineLabel from "./components/addLineLabel/AddLineLabel";
 
 function App() {
+  const isAddingLine = useAppSelector(setAddLineMenuStatus);
   const isDeleting = useAppSelector(setDeletingStatus);
   const IsUpdateApp = useAppSelector(setUpdatedAppStatus);
   const IsLogged = useAppSelector(setLoggedStatus);
   const isEditing = useAppSelector(setEditingStatus);
+
   const dispatch = useAppDispatch();
+
   const [CategoryList, setCategoryList] = useState([
     "companySigDate",
     "companySignatureName",
@@ -218,7 +227,7 @@ function App() {
                       <div className="EditCellBox">
                         <div
                           onClick={() => {
-                            setElementCategory(CategoryList[index + 1]);
+                            setElementCategory(CategoryList[index]);
                             setElementToEdit(row.companySignatureName);
                             setElementIndex(index);
 
@@ -236,7 +245,7 @@ function App() {
                       <div className="EditCellBox">
                         <div
                           onClick={() => {
-                            setElementCategory(CategoryList[index + 2]);
+                            setElementCategory(CategoryList[index + 1]);
                             setElementToEdit(row.documentName);
                             setElementIndex(index);
 
@@ -254,7 +263,7 @@ function App() {
                       <div className="EditCellBox">
                         <div
                           onClick={() => {
-                            setElementCategory(CategoryList[index + 3]);
+                            setElementCategory(CategoryList[index + 2]);
                             setElementToEdit(row.documentStatus);
                             setElementIndex(index);
 
@@ -272,7 +281,7 @@ function App() {
                       <div className="EditCellBox">
                         <div
                           onClick={() => {
-                            setElementCategory(CategoryList[index + 4]);
+                            setElementCategory(CategoryList[index + 3]);
                             setElementToEdit(row.documentType);
                             setElementIndex(index);
 
@@ -290,7 +299,7 @@ function App() {
                       <div className="EditCellBox">
                         <div
                           onClick={() => {
-                            setElementCategory(CategoryList[index + 5]);
+                            setElementCategory(CategoryList[index + 4]);
                             setElementToEdit(row.employeeNumber);
                             setElementIndex(index);
 
@@ -310,7 +319,7 @@ function App() {
                       <div className="EditCellBox">
                         <div
                           onClick={() => {
-                            setElementCategory(CategoryList[index + 7]);
+                            setElementCategory(CategoryList[index + 6]);
                             setElementToEdit(row.employeeSignatureName);
                             setElementIndex(index);
 
@@ -325,6 +334,13 @@ function App() {
                 ))}
               </TableBody>
             </Table>
+            <div
+              onClick={() => {
+                dispatch(OpenAddLineMenu());
+              }}
+            >
+              <AddIcon sx={{ fontSize: 50 }} />
+            </div>
           </TableContainer>
 
           {isEditing && (
@@ -336,6 +352,8 @@ function App() {
               Index={ElementIndex}
             />
           )}
+
+          {isAddingLine && <AddLineLabel />}
 
           {isDeleting && (
             <DeleteLineLabel UUID={ElementsUUIDs} Index={ElementIndex} />

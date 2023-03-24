@@ -25,14 +25,9 @@ export default function DeleteLineLabel(args: DeleteParams) {
           "x-auth": `${sessionStorage.getItem("authkey")}`,
         },
       }
-    )
-      .then((response) => response.json())
-      .then((response) => {
-        if (response.data) dispatch(UpdateApp());
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    ).catch((error) => {
+      console.error("Error:", error);
+    });
   }
 
   return (
@@ -47,6 +42,7 @@ export default function DeleteLineLabel(args: DeleteParams) {
         onClick={() => {
           GetDataSet();
           dispatch(CloseDeleteMenu());
+          dispatch(UpdateApp());
         }}
       >
         DELETE
