@@ -27,8 +27,15 @@ import {
   UpdateApp,
   AppisUpdated,
 } from "./app/UpdateAppSlice";
+import {
+  OpenDeleteMenu,
+  setDeletingStatus,
+} from "./components/deleteLineLabel/DeleteSlice";
+import DeleteCellLabel from "./components/deleteLineLabel/DeleteLineLabel";
+import DeleteLineLabel from "./components/deleteLineLabel/DeleteLineLabel";
 
 function App() {
+  const isDeleting = useAppSelector(setDeletingStatus);
   const IsUpdateApp = useAppSelector(setUpdatedAppStatus);
   const IsLogged = useAppSelector(setLoggedStatus);
   const isEditing = useAppSelector(setEditingStatus);
@@ -181,14 +188,6 @@ function App() {
             alt=""
           />
 
-          <button
-            onClick={() => {
-              dispatch(UpdateApp());
-            }}
-          >
-            AAA
-          </button>
-
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
@@ -201,7 +200,17 @@ function App() {
               <TableBody>
                 {Rows.map((row: any, index: number) => (
                   <TableRow key={row.companySigDate}>
-                    <TableCell>{row.companySigDate}</TableCell>
+                    <TableCell>
+                      <div
+                        className="DeleteCellBox"
+                        onClick={() => {
+                          dispatch(OpenDeleteMenu());
+                        }}
+                      >
+                        <DeleteIcon sx={{ fontSize: 20 }} />
+                        {row.companySigDate}
+                      </div>
+                    </TableCell>
 
                     <TableCell>
                       {row.companySignatureName}
@@ -218,9 +227,6 @@ function App() {
                         >
                           <ModeEditIcon sx={{ fontSize: 20 }} />
                         </div>
-                        <div>
-                          <DeleteIcon sx={{ fontSize: 20 }} />
-                        </div>
                       </div>
                     </TableCell>
 
@@ -228,11 +234,16 @@ function App() {
                       {row.documentName}
 
                       <div className="EditCellBox">
-                        <div>
+                        <div
+                          onClick={() => {
+                            setElementCategory(CategoryList[index + 2]);
+                            setElementToEdit(row.documentName);
+                            setElementIndex(index);
+
+                            dispatch(OpenEditMenu());
+                          }}
+                        >
                           <ModeEditIcon sx={{ fontSize: 20 }} />
-                        </div>
-                        <div>
-                          <DeleteIcon sx={{ fontSize: 20 }} />
                         </div>
                       </div>
                     </TableCell>
@@ -241,11 +252,16 @@ function App() {
                       {row.documentStatus}
 
                       <div className="EditCellBox">
-                        <div>
+                        <div
+                          onClick={() => {
+                            setElementCategory(CategoryList[index + 3]);
+                            setElementToEdit(row.documentStatus);
+                            setElementIndex(index);
+
+                            dispatch(OpenEditMenu());
+                          }}
+                        >
                           <ModeEditIcon sx={{ fontSize: 20 }} />
-                        </div>
-                        <div>
-                          <DeleteIcon sx={{ fontSize: 20 }} />
                         </div>
                       </div>
                     </TableCell>
@@ -254,11 +270,16 @@ function App() {
                       {row.documentType}
 
                       <div className="EditCellBox">
-                        <div>
+                        <div
+                          onClick={() => {
+                            setElementCategory(CategoryList[index + 4]);
+                            setElementToEdit(row.documentType);
+                            setElementIndex(index);
+
+                            dispatch(OpenEditMenu());
+                          }}
+                        >
                           <ModeEditIcon sx={{ fontSize: 20 }} />
-                        </div>
-                        <div>
-                          <DeleteIcon sx={{ fontSize: 20 }} />
                         </div>
                       </div>
                     </TableCell>
@@ -267,11 +288,16 @@ function App() {
                       {row.employeeNumber}
 
                       <div className="EditCellBox">
-                        <div>
+                        <div
+                          onClick={() => {
+                            setElementCategory(CategoryList[index + 5]);
+                            setElementToEdit(row.employeeNumber);
+                            setElementIndex(index);
+
+                            dispatch(OpenEditMenu());
+                          }}
+                        >
                           <ModeEditIcon sx={{ fontSize: 20 }} />
-                        </div>
-                        <div>
-                          <DeleteIcon sx={{ fontSize: 20 }} />
                         </div>
                       </div>
                     </TableCell>
@@ -282,11 +308,16 @@ function App() {
                       {row.employeeSignatureName}
 
                       <div className="EditCellBox">
-                        <div>
+                        <div
+                          onClick={() => {
+                            setElementCategory(CategoryList[index + 7]);
+                            setElementToEdit(row.employeeSignatureName);
+                            setElementIndex(index);
+
+                            dispatch(OpenEditMenu());
+                          }}
+                        >
                           <ModeEditIcon sx={{ fontSize: 20 }} />
-                        </div>
-                        <div>
-                          <DeleteIcon sx={{ fontSize: 20 }} />
                         </div>
                       </div>
                     </TableCell>
@@ -304,6 +335,10 @@ function App() {
               UUID={ElementsUUIDs}
               Index={ElementIndex}
             />
+          )}
+
+          {isDeleting && (
+            <DeleteLineLabel UUID={ElementsUUIDs} Index={ElementIndex} />
           )}
         </div>
       )}

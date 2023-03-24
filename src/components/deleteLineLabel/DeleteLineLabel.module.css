@@ -1,0 +1,8 @@
+.DeleteLineLabel {
+  margin-top: 50px;
+  z-index: 5;
+  border: 1px green solid;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+}

@@ -14,3 +14,11 @@
 .EditCellBox :hover {
   cursor: pointer;
 }
+
+.DeleteCellBox {
+  display: inline-flex;
+}
+
+.DeleteCellBox :hover {
+  cursor: pointer;
+}

@@ -1,4 +1,5 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import DeleteSlice from "../components/deleteLineLabel/DeleteSlice";
 import EditSlice from "../components/editCellLabel/EditSlice";
 import LoginReducer from "../components/loginpage/LoginSlice";
 import UpdateSlice from "./UpdateAppSlice";
@@ -8,6 +9,7 @@ export const store = configureStore({
     islogged: LoginReducer,
     isEditing: EditSlice,
     isUpdated: UpdateSlice,
+    isDeleting: DeleteSlice,
   },
 });
 

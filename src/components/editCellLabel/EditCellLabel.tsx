@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import { CloseEditMenu } from "./EditSlice";
 import { useAppDispatch } from "../../app/hooks";
 import { loggedOut } from "../loginpage/LoginSlice";
+import { UpdateApp } from "../../app/UpdateAppSlice";
 
 type EditParams = {
   ElementCategory: string;
@@ -71,6 +72,7 @@ export default function EditCellLabel(args: EditParams) {
         size="large"
         onClick={() => {
           EditRecord();
+          dispatch(UpdateApp());
           dispatch(CloseEditMenu());
         }}
       >
