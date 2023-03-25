@@ -39,6 +39,7 @@ import {
   setAddLineMenuStatus,
 } from "./components/addLineLabel/AddLineSlice";
 import AddLineLabel from "./components/addLineLabel/AddLineLabel";
+import LoadingIndicator from "./components/loadingIndicator/LoadingIndicator";
 
 function App() {
   const isAddingLine = useAppSelector(setAddLineMenuStatus);
@@ -60,6 +61,7 @@ function App() {
     "employeeSignatureName",
   ]);
 
+  const [UpdateSpiner, setUpdateSpiner] = useState(false);
   const [UnsortedData, setUnsortedData] = useState([{}]);
   const [ElementCategory, setElementCategory] = useState("");
   const [ElementToEdit, setElementToEdit] = useState("");
@@ -342,6 +344,8 @@ function App() {
               <AddIcon sx={{ fontSize: 50 }} />
             </div>
           </TableContainer>
+
+          {IsUpdateApp && <LoadingIndicator />}
 
           {isEditing && (
             <EditCellLabel
