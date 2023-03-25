@@ -1,0 +1,8 @@
+.ErrorLabel {
+  margin-top: 50px;
+  z-index: 15;
+  border: 1px green solid;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+}

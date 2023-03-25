@@ -4,6 +4,8 @@ import Button from "@mui/material/Button";
 import { CloseDeleteMenu } from "./DeleteSlice";
 import { useAppDispatch } from "../../app/hooks";
 import { UpdateApp } from "../../app/UpdateAppSlice";
+import { SetErrorMessage } from "../errorLabel/ErrorMessageSlice";
+import { OpenErrorMenu } from "../errorLabel/ErrorSlice";
 
 type DeleteParams = {
   UUID: string[];
@@ -27,6 +29,8 @@ export default function DeleteLineLabel(args: DeleteParams) {
       }
     ).catch((error) => {
       console.error("Error:", error);
+      dispatch(SetErrorMessage(error));
+      dispatch(OpenErrorMenu());
     });
   }
 

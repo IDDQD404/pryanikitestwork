@@ -7,6 +7,8 @@ import TextField from "@mui/material/TextField";
 import { useAppDispatch } from "../../app/hooks";
 import { UpdateApp } from "../../app/UpdateAppSlice";
 import { CloseAddLineMenu } from "./AddLineSlice";
+import { SetErrorMessage } from "../errorLabel/ErrorMessageSlice";
+import { OpenErrorMenu } from "../errorLabel/ErrorSlice";
 
 export default function AddLineLabel() {
   const dispatch = useAppDispatch();
@@ -58,6 +60,8 @@ export default function AddLineLabel() {
       }
     ).catch((error) => {
       console.error("Error:", error);
+      dispatch(SetErrorMessage(error));
+      dispatch(OpenErrorMenu());
     });
   }
 

@@ -12,6 +12,8 @@ import {
   loggedIn,
   setLoggedStatus,
 } from "../../components/loginpage/LoginSlice";
+import { SetErrorMessage } from "../errorLabel/ErrorMessageSlice";
+import { OpenErrorMenu } from "../errorLabel/ErrorSlice";
 
 export default function LoginPage() {
   const dispatch = useAppDispatch();
@@ -56,6 +58,8 @@ export default function LoginPage() {
       })
       .catch((error) => {
         console.error("Error:", error);
+        dispatch(SetErrorMessage(error));
+        dispatch(OpenErrorMenu());
       });
   }
 

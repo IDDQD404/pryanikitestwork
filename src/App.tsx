@@ -40,8 +40,16 @@ import {
 } from "./components/addLineLabel/AddLineSlice";
 import AddLineLabel from "./components/addLineLabel/AddLineLabel";
 import LoadingIndicator from "./components/loadingIndicator/LoadingIndicator";
+import ErrorLabel from "./components/errorLabel/ErrorLabel";
+import {
+  CloseErrorMenu,
+  OpenErrorMenu,
+  setErrorSliceStatus,
+} from "./components/errorLabel/ErrorSlice";
+import { SetErrorMessage } from "./components/errorLabel/ErrorMessageSlice";
 
 function App() {
+  const isErrorMessage = useAppSelector(setErrorSliceStatus);
   const isAddingLine = useAppSelector(setAddLineMenuStatus);
   const isDeleting = useAppSelector(setDeletingStatus);
   const IsUpdateApp = useAppSelector(setUpdatedAppStatus);
@@ -143,7 +151,9 @@ function App() {
         dispatch(AppisUpdated());
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Error:");
+        dispatch(SetErrorMessage(error));
+        dispatch(OpenErrorMenu());
       });
   }
 
@@ -344,6 +354,26 @@ function App() {
               <AddIcon sx={{ fontSize: 50 }} />
             </div>
           </TableContainer>
+
+          <button
+            onClick={() => {
+              dispatch(CloseErrorMenu());
+              dispatch(SetErrorMessage(""));
+            }}
+          >
+            A
+          </button>
+
+          <button
+            onClick={() => {
+              dispatch(OpenErrorMenu());
+              dispatch(SetErrorMessage("A"));
+            }}
+          >
+            A
+          </button>
+
+          {isErrorMessage && <ErrorLabel />}
 
           {IsUpdateApp && <LoadingIndicator />}
 
