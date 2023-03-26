@@ -77,9 +77,16 @@ export default function EditCellLabel(args: EditParams) {
         variant="contained"
         size="large"
         onClick={() => {
-          EditRecord();
-          dispatch(UpdateApp());
-          dispatch(CloseEditMenu());
+          if (
+            args.ElementCategory.toLowerCase().includes("name") &&
+            !(/[.]/.exec(EditData) ? /[^.]+$/.exec(EditData) : null)
+          ) {
+            setIncorrectDataHelp("This field should have an extension");
+          } else {
+            EditRecord();
+            dispatch(UpdateApp());
+            dispatch(CloseEditMenu());
+          }
         }}
       >
         CONFIRM

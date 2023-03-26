@@ -20,7 +20,13 @@ export default function AddLineLabel() {
   let [EmployeeNumber, setEmployeeNumber] = useState("");
   let [EmployeeSignatureName, setEmployeeSignatureName] = useState("");
 
-  let [IncorrectDataHelp, setIncorrectDataHelp] = useState("");
+  let [IncorrectDataEmployerNumber, setIncorrectDataEmployerNumber] =
+    useState("");
+  let [IncorrectDataDocumentName, setIncorrectDataDocumentName] = useState("");
+  let [IncorrectSignatureName, setIncorrectIncorrectSignatureName] =
+    useState("");
+  let [IncorrectEmployerSignatureName, setIncorrectEmployerSignatureName] =
+    useState("");
 
   async function AddRecord() {
     await fetch(
@@ -57,6 +63,7 @@ export default function AddLineLabel() {
           id="input-with-icon-textfield"
           label="Enter a companySignatureName"
           placeholder="Type your data for new Line"
+          helperText={IncorrectSignatureName}
           onChange={(event) => {
             setCompanySignatureName(
               (CompanySignatureName = event.target.value)
@@ -74,6 +81,7 @@ export default function AddLineLabel() {
           id="input-with-icon-textfield"
           label="Enter a documentName"
           placeholder="Type your data for new Line"
+          helperText={IncorrectDataDocumentName}
           onChange={(event) => {
             setDocumentName((DocumentName = event.target.value));
           }}
@@ -118,15 +126,15 @@ export default function AddLineLabel() {
         <TextField
           id="input-with-icon-textfield"
           label="Enter a employeeNumber"
-          helperText={IncorrectDataHelp}
+          helperText={IncorrectDataEmployerNumber}
           placeholder="Type your data for new Line"
           onChange={(event) => {
             const regex = /^[0-9\b]+$/;
             if (event.target.value === "" || regex.test(event.target.value)) {
-              setIncorrectDataHelp("");
+              setIncorrectDataEmployerNumber("");
               setEmployeeNumber((EmployeeNumber = event.target.value));
             } else {
-              setIncorrectDataHelp("Numbers only allowed");
+              setIncorrectDataEmployerNumber("Numbers only allowed");
             }
           }}
           InputProps={{
@@ -141,6 +149,7 @@ export default function AddLineLabel() {
           id="input-with-icon-textfield"
           label="Enter a employeeSignatureName"
           placeholder="Type your data for new Line"
+          helperText={IncorrectEmployerSignatureName}
           onChange={(event) => {
             setEmployeeSignatureName(
               (EmployeeSignatureName = event.target.value)
@@ -158,9 +167,31 @@ export default function AddLineLabel() {
         variant="contained"
         size="large"
         onClick={() => {
-          AddRecord();
-          dispatch(CloseAddLineMenu());
-          dispatch(UpdateApp());
+          if (
+            !(/[.]/.exec(CompanySignatureName)
+              ? /[^.]+$/.exec(CompanySignatureName)
+              : null)
+          ) {
+            setIncorrectIncorrectSignatureName(
+              "This field should have an extension"
+            );
+          } else if (
+            !(/[.]/.exec(DocumentName) ? /[^.]+$/.exec(DocumentName) : null)
+          ) {
+            setIncorrectDataDocumentName("This field should have an extension");
+          } else if (
+            !(/[.]/.exec(EmployeeSignatureName)
+              ? /[^.]+$/.exec(EmployeeSignatureName)
+              : null)
+          ) {
+            setIncorrectEmployerSignatureName(
+              "This field should have an extension"
+            );
+          } else {
+            AddRecord();
+            dispatch(CloseAddLineMenu());
+            dispatch(UpdateApp());
+          }
         }}
       >
         CONFIRM
