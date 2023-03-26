@@ -178,12 +178,14 @@ export default function AddLineLabel() {
           } else if (
             !(/[.]/.exec(DocumentName) ? /[^.]+$/.exec(DocumentName) : null)
           ) {
+            setIncorrectIncorrectSignatureName("");
             setIncorrectDataDocumentName("This field should have an extension");
           } else if (
             !(/[.]/.exec(EmployeeSignatureName)
               ? /[^.]+$/.exec(EmployeeSignatureName)
               : null)
           ) {
+            setIncorrectDataDocumentName("");
             setIncorrectEmployerSignatureName(
               "This field should have an extension"
             );
