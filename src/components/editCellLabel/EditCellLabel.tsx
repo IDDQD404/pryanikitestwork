@@ -7,7 +7,6 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { CloseEditMenu } from "./EditSlice";
 import { useAppDispatch } from "../../app/hooks";
-import { loggedOut } from "../loginpage/LoginSlice";
 import { UpdateApp } from "../../app/UpdateAppSlice";
 
 type EditParams = {

@@ -12,7 +12,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
 import { useAppDispatch, useAppSelector } from "./app/hooks";
@@ -23,16 +23,11 @@ import {
   OpenEditMenu,
   setEditingStatus,
 } from "./components/editCellLabel/EditSlice";
-import {
-  setUpdatedAppStatus,
-  UpdateApp,
-  AppisUpdated,
-} from "./app/UpdateAppSlice";
+import { setUpdatedAppStatus, AppisUpdated } from "./app/UpdateAppSlice";
 import {
   OpenDeleteMenu,
   setDeletingStatus,
 } from "./components/deleteLineLabel/DeleteSlice";
-import DeleteCellLabel from "./components/deleteLineLabel/DeleteLineLabel";
 import DeleteLineLabel from "./components/deleteLineLabel/DeleteLineLabel";
 import {
   OpenAddLineMenu,
@@ -42,7 +37,6 @@ import AddLineLabel from "./components/addLineLabel/AddLineLabel";
 import LoadingIndicator from "./components/loadingIndicator/LoadingIndicator";
 import ErrorLabel from "./components/errorLabel/ErrorLabel";
 import {
-  CloseErrorMenu,
   OpenErrorMenu,
   setErrorSliceStatus,
 } from "./components/errorLabel/ErrorSlice";
@@ -69,7 +63,6 @@ function App() {
     "employeeSignatureName",
   ]);
 
-  const [UpdateSpiner, setUpdateSpiner] = useState(false);
   const [UnsortedData, setUnsortedData] = useState([{}]);
   const [ElementCategory, setElementCategory] = useState("");
   const [ElementToEdit, setElementToEdit] = useState("");

@@ -8,10 +8,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import LockIcon from "@mui/icons-material/Lock";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-  loggedIn,
-  setLoggedStatus,
-} from "../../components/loginpage/LoginSlice";
+import { loggedIn } from "../../components/loginpage/LoginSlice";
 import { SetErrorMessage } from "../errorLabel/ErrorMessageSlice";
 import { OpenErrorMenu } from "../errorLabel/ErrorSlice";
 

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styles from "./AddLineLabel.module.css";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
