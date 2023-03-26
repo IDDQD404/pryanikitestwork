@@ -9,7 +9,7 @@ export default function LoadingIndicator() {
       <h1>App is in update process</h1>
 
       <div>
-        <CircularProgress size="10%" />
+        <CircularProgress disableShrink size="20%" />
       </div>
     </div>
   );
