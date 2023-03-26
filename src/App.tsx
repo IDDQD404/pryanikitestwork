@@ -197,14 +197,14 @@ function App() {
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  {CategoryList.map((element: string) => (
-                    <TableCell>{element}</TableCell>
+                  {CategoryList.map((element: string, index: number) => (
+                    <TableCell key={index}>{element}</TableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {Rows.map((row: any, index: number) => (
-                  <TableRow key={row.companySigDate}>
+                  <TableRow key={index}>
                     <TableCell>
                       <div
                         className="DeleteCellBox"

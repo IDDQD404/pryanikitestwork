@@ -17,12 +17,10 @@ export const UpdateSlice = createSlice({
 
   reducers: {
     UpdateApp: (state) => {
-      console.log("Updating");
       state.value = true;
     },
 
     AppisUpdated: (state) => {
-      console.log("Updated");
       state.value = false;
     },
   },
