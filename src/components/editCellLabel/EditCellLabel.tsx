@@ -24,11 +24,6 @@ export default function EditCellLabel(args: EditParams) {
   const [EditCategory, setEditCategory] = useState(args.ElementCategory);
 
   async function EditRecord() {
-    console.log("---Edit Page----");
-    console.log(JSON.stringify({ ...EditObject, [EditCategory]: EditData }));
-    console.log(`${args.UUID[args.Index]}`);
-    console.log("----------------");
-
     await fetch(
       `${
         process.env.REACT_APP_API_URL
@@ -49,7 +44,6 @@ export default function EditCellLabel(args: EditParams) {
   const dispatch = useAppDispatch();
   return (
     <div className={styles.EditCellLabel}>
-      {args.UUID[args.Index]}
       <Box>
         <TextField
           id="input-with-icon-textfield"

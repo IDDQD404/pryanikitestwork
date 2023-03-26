@@ -22,3 +22,10 @@
 .DeleteCellBox :hover {
   cursor: pointer;
 }
+
+.AddLineMenu {
+}
+
+.AddLineMenu :hover {
+  cursor: pointer;
+}

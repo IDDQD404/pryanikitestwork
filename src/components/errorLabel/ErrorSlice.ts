@@ -7,7 +7,7 @@ export interface ErrorSlice {
 }
 
 const initialState: ErrorSlice = {
-  value: true,
+  value: false,
   status: "idle",
 };
 

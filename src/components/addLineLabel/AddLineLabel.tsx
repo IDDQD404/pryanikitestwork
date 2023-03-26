@@ -12,12 +12,7 @@ import { OpenErrorMenu } from "../errorLabel/ErrorSlice";
 
 export default function AddLineLabel() {
   const dispatch = useAppDispatch();
-  //   "companySignatureName",
-  //   "documentName",
-  //   "documentStatus",
-  //   "documentType",
-  //   "employeeNumber",
-  //   "employeeSignatureName",
+
   let [CompanySignatureName, setCompanySignatureName] = useState("");
   let [DocumentName, setDocumentName] = useState("");
   let [DocumentStatus, setDocumentStatus] = useState("");
@@ -26,19 +21,6 @@ export default function AddLineLabel() {
   let [EmployeeSignatureName, setEmployeeSignatureName] = useState("");
 
   async function AddRecord() {
-    // console.log("---Add Page----");
-    // console.log({
-    //   companySigDate: new Date().toISOString(),
-    //   companySignatureName: CompanySignatureName,
-    //   documentName: DocumentName,
-    //   documentStatus: DocumentStatus,
-    //   documentType: DocumentType,
-    //   employeeNumber: EmployeeNumber,
-    //   employeeSigDate: new Date().toISOString(),
-    //   employeeSignatureName: EmployeeSignatureName,
-    // });
-    // console.log("----------------");
-
     await fetch(
       `${process.env.REACT_APP_API_URL}/ru/data/v3/testmethods/docs/userdocs/create`,
       {
@@ -161,15 +143,6 @@ export default function AddLineLabel() {
           variant="standard"
         />
       </Box>
-
-      {/* "companySigDate",
-    "companySignatureName",
-    "documentName",
-    "documentStatus",
-    "documentType",
-    "employeeNumber",
-    "employeeSigDate",
-    "employeeSignatureName", */}
 
       <Button
         className={styles.LoginButton}

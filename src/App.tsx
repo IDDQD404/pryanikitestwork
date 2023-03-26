@@ -88,7 +88,6 @@ function App() {
       "Unsetted"
     ),
   ]);
-  const RowsRef = useRef(Rows);
 
   async function GetDataSet() {
     await fetch(
@@ -103,52 +102,46 @@ function App() {
     )
       .then((response) => response.json())
       .then((response) => {
-        if (response.data) console.log("|----1----|");
-        console.log(response.data);
+        if (response.data) {
+          let Unsorted = response.data;
+          setUnsortedData(response.data);
 
-        console.log("|----2----|");
+          let Sorted: {
+            companySigDate: string;
+            companySignatureName: string;
+            documentName: string;
+            documentStatus: string;
+            documentType: string;
+            employeeNumber: string;
+            employeeSigDate: string;
+            employeeSignatureName: string;
+          }[] = [];
 
-        let Unsorted = response.data;
-        setUnsortedData(response.data);
-
-        let Sorted: {
-          companySigDate: string;
-          companySignatureName: string;
-          documentName: string;
-          documentStatus: string;
-          documentType: string;
-          employeeNumber: string;
-          employeeSigDate: string;
-          employeeSignatureName: string;
-        }[] = [];
-
-        Unsorted.forEach((element: any, index: number) =>
-          Sorted.push(
-            DataSortType(
-              element.companySigDate,
-              element.companySignatureName,
-              element.documentName,
-              element.documentStatus,
-              element.documentType,
-              element.employeeNumber,
-              element.employeeSigDate,
-              element.employeeSignatureName
+          Unsorted.forEach((element: any, index: number) =>
+            Sorted.push(
+              DataSortType(
+                element.companySigDate,
+                element.companySignatureName,
+                element.documentName,
+                element.documentStatus,
+                element.documentType,
+                element.employeeNumber,
+                element.employeeSigDate,
+                element.employeeSignatureName
+              )
             )
-          )
-        );
+          );
 
-        let UUIDs: string[] = [];
-        Unsorted.forEach((element: any, index: number) =>
-          UUIDs.push(element.id)
-        );
-        setElementsUUIDs(UUIDs);
+          let UUIDs: string[] = [];
+          Unsorted.forEach((element: any, index: number) =>
+            UUIDs.push(element.id)
+          );
+          setElementsUUIDs(UUIDs);
 
-        console.log(Sorted);
-        setRows(Sorted);
+          setRows(Sorted);
 
-        console.log("|--------|");
-
-        dispatch(AppisUpdated());
+          dispatch(AppisUpdated());
+        }
       })
       .catch((error) => {
         console.error("Error:");
@@ -159,9 +152,7 @@ function App() {
 
   useEffect(() => {
     GetDataSet();
-    console.log("Loaded");
-    console.log(RowsRef);
-  }, [IsUpdateApp, RowsRef, IsLogged]);
+  }, [IsUpdateApp, IsLogged]);
 
   function DataSortType(
     companySigDate: string,
@@ -190,8 +181,6 @@ function App() {
       {sessionStorage.getItem("authkey") && (
         <div className="App">
           <div className="ButtonLogOut">
-            <h1>Token is: {sessionStorage.getItem("authkey")}</h1>
-
             <Button
               variant="contained"
               color="success"
@@ -204,13 +193,8 @@ function App() {
             </Button>
           </div>
 
-          <img
-            src="https://media.tenor.com/4YuPV92egH0AAAAC/%D0%B3%D0%BE%D0%B1%D0%BB%D0%B8%D0%BD-%D1%81%D0%B2%D0%B8%D0%BD%D1%8C%D0%B8.gif"
-            alt=""
-          />
-
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
                   {CategoryList.map((element: string) => (
@@ -228,18 +212,17 @@ function App() {
                           dispatch(OpenDeleteMenu());
                         }}
                       >
-                        <DeleteIcon sx={{ fontSize: 20 }} />
+                        <DeleteIcon sx={{ fontSize: 25 }} />
                         {row.companySigDate}
                       </div>
                     </TableCell>
 
                     <TableCell>
                       {row.companySignatureName}
-
                       <div className="EditCellBox">
                         <div
                           onClick={() => {
-                            setElementCategory(CategoryList[index]);
+                            setElementCategory(CategoryList[1]);
                             setElementToEdit(row.companySignatureName);
                             setElementIndex(index);
 
@@ -253,11 +236,10 @@ function App() {
 
                     <TableCell>
                       {row.documentName}
-
                       <div className="EditCellBox">
                         <div
                           onClick={() => {
-                            setElementCategory(CategoryList[index + 1]);
+                            setElementCategory(CategoryList[2]);
                             setElementToEdit(row.documentName);
                             setElementIndex(index);
 
@@ -271,11 +253,10 @@ function App() {
 
                     <TableCell>
                       {row.documentStatus}
-
                       <div className="EditCellBox">
                         <div
                           onClick={() => {
-                            setElementCategory(CategoryList[index + 2]);
+                            setElementCategory(CategoryList[3]);
                             setElementToEdit(row.documentStatus);
                             setElementIndex(index);
 
@@ -289,11 +270,10 @@ function App() {
 
                     <TableCell>
                       {row.documentType}
-
                       <div className="EditCellBox">
                         <div
                           onClick={() => {
-                            setElementCategory(CategoryList[index + 3]);
+                            setElementCategory(CategoryList[4]);
                             setElementToEdit(row.documentType);
                             setElementIndex(index);
 
@@ -307,11 +287,10 @@ function App() {
 
                     <TableCell>
                       {row.employeeNumber}
-
                       <div className="EditCellBox">
                         <div
                           onClick={() => {
-                            setElementCategory(CategoryList[index + 4]);
+                            setElementCategory(CategoryList[5]);
                             setElementToEdit(row.employeeNumber);
                             setElementIndex(index);
 
@@ -327,11 +306,10 @@ function App() {
 
                     <TableCell>
                       {row.employeeSignatureName}
-
                       <div className="EditCellBox">
                         <div
                           onClick={() => {
-                            setElementCategory(CategoryList[index + 6]);
+                            setElementCategory(CategoryList[7]);
                             setElementToEdit(row.employeeSignatureName);
                             setElementIndex(index);
 
@@ -347,6 +325,7 @@ function App() {
               </TableBody>
             </Table>
             <div
+              className="AddLineMenu"
               onClick={() => {
                 dispatch(OpenAddLineMenu());
               }}
@@ -354,24 +333,6 @@ function App() {
               <AddIcon sx={{ fontSize: 50 }} />
             </div>
           </TableContainer>
-
-          <button
-            onClick={() => {
-              dispatch(CloseErrorMenu());
-              dispatch(SetErrorMessage(""));
-            }}
-          >
-            A
-          </button>
-
-          <button
-            onClick={() => {
-              dispatch(OpenErrorMenu());
-              dispatch(SetErrorMessage("A"));
-            }}
-          >
-            A
-          </button>
 
           {isErrorMessage && <ErrorLabel />}
 
