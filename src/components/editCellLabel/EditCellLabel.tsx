@@ -50,7 +50,13 @@ export default function EditCellLabel(args: EditParams) {
           label={`Change ${args.ElementCategory}`}
           placeholder="Type your data to edit"
           onChange={(event) => {
-            setEditData((EditData = event.target.value));
+            if (args.ElementCategory.toLowerCase().includes("number")) {
+              const regex = /^[0-9\b]+$/;
+              if (event.target.value === "" || regex.test(event.target.value))
+                setEditData((EditData = event.target.value));
+            } else {
+              setEditData((EditData = event.target.value));
+            }
           }}
           InputProps={{
             startAdornment: <ModeEditIcon sx={{ fontSize: 18 }} />,

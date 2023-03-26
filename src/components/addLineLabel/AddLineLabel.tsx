@@ -115,10 +115,12 @@ export default function AddLineLabel() {
 
         <TextField
           id="input-with-icon-textfield"
-          label="Enter a employeeNumber"
+          label="Enter a employeeNumber(numbers only)"
           placeholder="Type your data for new Line"
           onChange={(event) => {
-            setEmployeeNumber((EmployeeNumber = event.target.value));
+            const regex = /^[0-9\b]+$/;
+            if (event.target.value === "" || regex.test(event.target.value))
+              setEmployeeNumber((EmployeeNumber = event.target.value));
           }}
           InputProps={{
             value: EmployeeNumber,
