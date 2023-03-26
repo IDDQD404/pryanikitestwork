@@ -22,6 +22,7 @@ export default function EditCellLabel(args: EditParams) {
   let [EditData, setEditData] = useState(args.ElementToEdit);
   const [EditObject, setEditObject] = useState(args.Elements[args.Index]);
   const [EditCategory, setEditCategory] = useState(args.ElementCategory);
+  const [IncorrectDataHelp, setIncorrectDataHelp] = useState("");
 
   async function EditRecord() {
     await fetch(
@@ -47,13 +48,18 @@ export default function EditCellLabel(args: EditParams) {
       <Box>
         <TextField
           id="input-with-icon-textfield"
+          helperText={IncorrectDataHelp}
           label={`Change ${args.ElementCategory}`}
           placeholder="Type your data to edit"
           onChange={(event) => {
             if (args.ElementCategory.toLowerCase().includes("number")) {
+              setIncorrectDataHelp("Numbers only allowed");
+
               const regex = /^[0-9\b]+$/;
-              if (event.target.value === "" || regex.test(event.target.value))
+              if (event.target.value === "" || regex.test(event.target.value)) {
+                setIncorrectDataHelp("");
                 setEditData((EditData = event.target.value));
+              }
             } else {
               setEditData((EditData = event.target.value));
             }

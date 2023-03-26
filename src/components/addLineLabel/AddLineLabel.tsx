@@ -20,6 +20,8 @@ export default function AddLineLabel() {
   let [EmployeeNumber, setEmployeeNumber] = useState("");
   let [EmployeeSignatureName, setEmployeeSignatureName] = useState("");
 
+  let [IncorrectDataHelp, setIncorrectDataHelp] = useState("");
+
   async function AddRecord() {
     await fetch(
       `${process.env.REACT_APP_API_URL}/ru/data/v3/testmethods/docs/userdocs/create`,
@@ -115,12 +117,17 @@ export default function AddLineLabel() {
 
         <TextField
           id="input-with-icon-textfield"
-          label="Enter a employeeNumber(numbers only)"
+          label="Enter a employeeNumber"
+          helperText={IncorrectDataHelp}
           placeholder="Type your data for new Line"
           onChange={(event) => {
             const regex = /^[0-9\b]+$/;
-            if (event.target.value === "" || regex.test(event.target.value))
+            if (event.target.value === "" || regex.test(event.target.value)) {
+              setIncorrectDataHelp("");
               setEmployeeNumber((EmployeeNumber = event.target.value));
+            } else {
+              setIncorrectDataHelp("Numbers only allowed");
+            }
           }}
           InputProps={{
             value: EmployeeNumber,
