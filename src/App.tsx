@@ -20,16 +20,19 @@ import LoginPage from "./components/loginpage/LoginPage";
 import { setLoggedStatus } from "./components/loginpage/LoginSlice";
 import EditCellLabel from "./components/editCellLabel/EditCellLabel";
 import {
+  CloseEditMenu,
   OpenEditMenu,
   setEditingStatus,
 } from "./components/editCellLabel/EditSlice";
 import { setUpdatedAppStatus, AppisUpdated } from "./app/UpdateAppSlice";
 import {
+  CloseDeleteMenu,
   OpenDeleteMenu,
   setDeletingStatus,
 } from "./components/deleteLineLabel/DeleteSlice";
 import DeleteLineLabel from "./components/deleteLineLabel/DeleteLineLabel";
 import {
+  CloseAddLineMenu,
   OpenAddLineMenu,
   setAddLineMenuStatus,
 } from "./components/addLineLabel/AddLineSlice";
@@ -176,6 +179,9 @@ function App() {
                             setElementToEdit(row.companySignatureName);
                             setElementIndex(index);
 
+                            dispatch(CloseAddLineMenu());
+                            dispatch(CloseDeleteMenu());
+
                             dispatch(OpenEditMenu());
                           }}
                         >
@@ -192,6 +198,9 @@ function App() {
                             setElementCategory(CategoryList[2]);
                             setElementToEdit(row.documentName);
                             setElementIndex(index);
+
+                            dispatch(CloseAddLineMenu());
+                            dispatch(CloseDeleteMenu());
 
                             dispatch(OpenEditMenu());
                           }}
@@ -210,6 +219,9 @@ function App() {
                             setElementToEdit(row.documentStatus);
                             setElementIndex(index);
 
+                            dispatch(CloseAddLineMenu());
+                            dispatch(CloseDeleteMenu());
+
                             dispatch(OpenEditMenu());
                           }}
                         >
@@ -227,6 +239,9 @@ function App() {
                             setElementToEdit(row.documentType);
                             setElementIndex(index);
 
+                            dispatch(CloseAddLineMenu());
+                            dispatch(CloseDeleteMenu());
+
                             dispatch(OpenEditMenu());
                           }}
                         >
@@ -243,6 +258,9 @@ function App() {
                             setElementCategory(CategoryList[5]);
                             setElementToEdit(row.employeeNumber);
                             setElementIndex(index);
+
+                            dispatch(CloseAddLineMenu());
+                            dispatch(CloseDeleteMenu());
 
                             dispatch(OpenEditMenu());
                           }}
@@ -263,6 +281,9 @@ function App() {
                             setElementToEdit(row.employeeSignatureName);
                             setElementIndex(index);
 
+                            dispatch(CloseAddLineMenu());
+                            dispatch(CloseDeleteMenu());
+
                             dispatch(OpenEditMenu());
                           }}
                         >
@@ -275,6 +296,11 @@ function App() {
                       <div
                         className="DeleteCellBox"
                         onClick={() => {
+                          setElementIndex(index);
+
+                          dispatch(CloseEditMenu());
+                          dispatch(CloseAddLineMenu());
+
                           dispatch(OpenDeleteMenu());
                         }}
                       >
@@ -288,6 +314,9 @@ function App() {
             <div
               className="AddLineMenu"
               onClick={() => {
+                dispatch(CloseEditMenu());
+                dispatch(CloseDeleteMenu());
+
                 dispatch(OpenAddLineMenu());
               }}
             >
