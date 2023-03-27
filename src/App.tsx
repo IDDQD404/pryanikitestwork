@@ -69,18 +69,18 @@ function App() {
   const [ElementsUUIDs, setElementsUUIDs] = useState([""]);
   const [ElementIndex, setElementIndex] = useState(0);
 
-  const [Rows, setRows] = useState([
-    DataSortType(
-      "Unsetted",
-      "Unsetted",
-      "Unsetted",
-      "Unsetted",
-      "Unsetted",
-      "Unsetted",
-      "Unsetted",
-      "Unsetted"
-    ),
-  ]);
+  type Line = {
+    companySigDate: string;
+    companySignatureName: string;
+    documentName: string;
+    documentStatus: string;
+    documentType: string;
+    employeeNumber: string;
+    employeeSigDate: string;
+    employeeSignatureName: string;
+  };
+
+  const [Rows, setRows] = useState<Line[]>([]);
 
   async function GetDataSet() {
     await fetch(
@@ -99,30 +99,19 @@ function App() {
           let Unsorted = response.data;
           setUnsortedData(response.data);
 
-          let Sorted: {
-            companySigDate: string;
-            companySignatureName: string;
-            documentName: string;
-            documentStatus: string;
-            documentType: string;
-            employeeNumber: string;
-            employeeSigDate: string;
-            employeeSignatureName: string;
-          }[] = [];
+          let Sorted: Line[] = [];
 
           Unsorted.forEach((element: any, index: number) =>
-            Sorted.push(
-              DataSortType(
-                element.companySigDate,
-                element.companySignatureName,
-                element.documentName,
-                element.documentStatus,
-                element.documentType,
-                element.employeeNumber,
-                element.employeeSigDate,
-                element.employeeSignatureName
-              )
-            )
+            Sorted.push({
+              companySigDate: element.companySigDate,
+              companySignatureName: element.companySignatureName,
+              documentName: element.documentName,
+              documentStatus: element.documentStatus,
+              documentType: element.documentType,
+              employeeNumber: element.employeeNumber,
+              employeeSigDate: element.employeeSigDate,
+              employeeSignatureName: element.employeeSignatureName,
+            })
           );
 
           let UUIDs: string[] = [];
@@ -137,7 +126,7 @@ function App() {
         }
       })
       .catch((error) => {
-        console.error("Error:");
+        console.error("Error:", error);
         dispatch(SetErrorMessage(error));
         dispatch(OpenErrorMenu());
       });
@@ -146,28 +135,6 @@ function App() {
   useEffect(() => {
     GetDataSet();
   }, [IsUpdateApp, IsLogged]);
-
-  function DataSortType(
-    companySigDate: string,
-    companySignatureName: string,
-    documentName: string,
-    documentStatus: string,
-    documentType: string,
-    employeeNumber: string,
-    employeeSigDate: string,
-    employeeSignatureName: string
-  ) {
-    return {
-      companySigDate,
-      companySignatureName,
-      documentName,
-      documentStatus,
-      documentType,
-      employeeNumber,
-      employeeSigDate,
-      employeeSignatureName,
-    };
-  }
 
   return (
     <>
@@ -186,7 +153,7 @@ function App() {
             </Button>
           </div>
 
-          <TableContainer component={Paper}>
+          <TableContainer>
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
@@ -198,17 +165,7 @@ function App() {
               <TableBody>
                 {Rows.map((row: any, index: number) => (
                   <TableRow key={index}>
-                    <TableCell>
-                      <div
-                        className="DeleteCellBox"
-                        onClick={() => {
-                          dispatch(OpenDeleteMenu());
-                        }}
-                      >
-                        <DeleteIcon sx={{ fontSize: 25 }} />
-                        {row.companySigDate}
-                      </div>
-                    </TableCell>
+                    <TableCell>{row.companySigDate}</TableCell>
 
                     <TableCell>
                       {row.companySignatureName}
@@ -311,6 +268,17 @@ function App() {
                         >
                           <ModeEditIcon sx={{ fontSize: 20 }} />
                         </div>
+                      </div>
+                    </TableCell>
+
+                    <TableCell>
+                      <div
+                        className="DeleteCellBox"
+                        onClick={() => {
+                          dispatch(OpenDeleteMenu());
+                        }}
+                      >
+                        <DeleteIcon sx={{ fontSize: 30 }} />
                       </div>
                     </TableCell>
                   </TableRow>
